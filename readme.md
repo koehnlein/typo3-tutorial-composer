@@ -4,7 +4,7 @@
 
 ### TYPO3 version
 
-On [packagist.org](https://packagist.org), the very official composer package platform, you can find TYPO3 6.2.0 and above: [typo3/cms](https://packagist.org/packages/typo3/cms). My oldest composer based projects are TYPO3 7 LTS. So I don't know if there are any problems, when using an TYPO3 6.2. But it's 2018 - why should someone want to have TYPO3 below 7 LTS? 
+TYPO3 composer packages on [packagist.org](https://packagist.org) can be found down to version 6.2.0: [typo3/cms](https://packagist.org/packages/typo3/cms)
 
 ### Composer
 
@@ -45,7 +45,7 @@ If you do not have such a web root directory, you must refactor your project bef
 
 Your project must have the TYPO3 core and all installed extensions in original state. If you changed files, like templates or configurations directly in core or the extensions, you have a problem. That's not how TYPO3 works.
 
-# The steps
+# Migration steps
 
 ## Delete files
 
@@ -102,6 +102,8 @@ You have to decide by yourself, which syntax fits better to your needs.
 
 ### Install the core
 
+#### The old way: add everything
+
 As already written above, the line to install TYPO3 7 LTS would be:
 
 ```
@@ -113,20 +115,38 @@ While installing TYPO3 8 LTS works with this line:
 ```
 composer require typo3/cms:~8.7.0
 ```
+#### The new way: add only code, you need
 
-Note: Since TYPO3 8.7.10 you can use a concept, called "subtree split". It will be mandatory for TYPO3 9. To keep this tutorial easy, I won't write more about that. If you are interessted in what it means, you can visit <https://usetypo3.com/typo3-subtree-split-and-composer.html>.
+Since TYPO3 8.7.10 you *can* use a concept, called "subtree split". It will be *mandatory* for TYPO3 9. The concept means, you will not copy the full TYPO3 core package, including all system extensions, you will never use. But only install what you really want. You will not be able to install `typo3/cms:^9`, but have to name each system extension:
+
+``` 
+composer require typo3/cms-core:~9.0.0
+composer require typo3/cms-backend:~9.0.0
+composer require typo3/cms-frontend:~9.0.0
+composer require ... 
+```
+
+Or in one line:
+
+``` 
+composer require typo3/cms-core:~9.0.0 typo3/cms-backend:~9.0.0 typo3/cms-frontend:~9.0.0 ... 
+```
+
+To find the correct package names, you can either take a look in the `composer.json` of any system extension or follow the naming convention `typo3/cms-<extension name with dash "-" instead of underscore "_">`, e.g. `typo3/cms-fluid-styled-content`.
 
 ### Install extensions from packagist.org
 
 You already know the TER and always used it to install extensions? Fine. But with composer, the **prefered way** is to install extensions directly from there. This works great, when the maintainer uploaded them to packagist. Many well known extensions are already available there. You only need to known the package name. And here is a way to find it:
 
 1. Search and open the extension, you want to install, in [TER](https://extensions.typo3.org)
-2. Click button "Take a look into the code"
-3. Open file `composer.json`
-4. Search for line with property `"name"`, it's value should be formatted like `vendor/package`
-5. Check, if the package can be found on [packagist.org](https://packagist.org)
-
-_TODO: add screenshots_
+2. Click button "Take a look into the code"  
+![TER screenshot](images/ter-code-link.png)
+3. Open file `composer.json`  
+![TER screenshot](images/github-composer-file.png)
+4. Search for line with property `"name"`, it's value should be formatted like `vendor/package`  
+![TER screenshot](images/github-composer-name.png)
+5. Check, if the package can be found on [packagist.org](https://packagist.org)  
+![TER screenshot](images/packagist-news.png)
 
 **Example:**  
 To install the news extension in version 7.0.*, type:
@@ -288,7 +308,7 @@ After updating any packages, you always should commit your `composer.lock` to yo
 
 ### Update all packages
 
-Run `composer update` without any other attributes, to update all packages 
+Run `composer update` without any other attributes, to update all packages. Composer will always try to install the newest packages that match the defined version constraints.
 
 ## Update single packages
 
@@ -296,17 +316,25 @@ When you want to update single packages, you can call the `update` command with 
 
 #### Update TYPO3 core 
 
+**Without "subtree split"**
+
 ```
 composer update typo3/cms --with-dependencies
 ```
 
-#### Update news exteison 
+**With "subtree split"**
+
+```
+composer update typo3/cms-* --with-dependencies
+```
+
+#### Update extensions like "news" 
 
 ```
 composer update georgringer/news --with-dependencies
 ```
 
-## Use "dev requirements"
+### Use "dev requirements"
 
 Add packages with `--dev` attribute to add packages only to your local development environment. This is very usefull for packages, you do not need or do not want to have on your live server, e.g. PHPUnit or Testing-Frameworks:
 
@@ -333,3 +361,7 @@ Don't forget to commit your updated `composer.lock` to your version control syst
 ### Check for available updates
 
 Run `composer outdated` to see a list of available updates.
+
+### Simplify "subtree split" installations
+
+Instead of explicitly requiring each core extension, you can require [typo3/minimal](https://packagist.org/packages/typo3/minimal), which brings the minial required set of stystem extensions.
