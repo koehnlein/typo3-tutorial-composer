@@ -25,12 +25,12 @@
       * [Update packages](#update-packages)
          * [Update all packages](#update-all-packages)
       * [Update single packages](#update-single-packages)
-            * [Update TYPO3 core](#update-typo3-core)
-            * [Update extensions like "news"](#update-extensions-like-news)
-         * [Use "dev requirements"](#use-dev-requirements)
-         * [Remove extensions](#remove-extensions)
-         * [Check for available updates](#check-for-available-updates)
-         * [Simplify "subtree split" installations](#simplify-subtree-split-installations)
+         * [Update TYPO3 core](#update-typo3-core)
+         * [Update extensions like "news"](#update-extensions-like-news)
+      * [Use "dev requirements"](#use-dev-requirements)
+      * [Remove extensions](#remove-extensions)
+      * [Check for available updates](#check-for-available-updates)
+      * [Simplify "subtree split" installations](#simplify-subtree-split-installations)
 
 ## Requirements
 
@@ -346,7 +346,7 @@ Run `composer update` without any other attributes, to update all packages. Comp
 
 When you want to update single packages, you can call the `update` command with the package name. You should alway add `--with-dependencies` attribute to also update the required third party packages. 
 
-#### Update TYPO3 core 
+### Update TYPO3 core 
 
 **Without "subtree split"**
 
@@ -360,13 +360,13 @@ composer update typo3/cms --with-dependencies
 composer update typo3/cms-* --with-dependencies
 ```
 
-#### Update extensions like "news" 
+### Update extensions like "news" 
 
 ```
 composer update georgringer/news --with-dependencies
 ```
 
-### Use "dev requirements"
+## Use "dev requirements"
 
 Add packages with `--dev` attribute to add packages only to your local development environment. This is very usefull for packages, you do not need or do not want to have on your live server, e.g. PHPUnit or Testing-Frameworks:
 
@@ -380,7 +380,7 @@ During your deployment routine, you should run `composer install` with attribute
 composer install --no-dev
 ```
 
-### Remove extensions
+## Remove extensions
 
 You can use the composer command `remove` to uninstall extensions or other composer packages.
 
@@ -390,10 +390,10 @@ composer remove georgringer/news
 
 Don't forget to commit your updated `composer.lock` to your version control system.
 
-### Check for available updates
+## Check for available updates
 
 Run `composer outdated` to see a list of available updates.
 
-### Simplify "subtree split" installations
+## Simplify "subtree split" installations
 
 Instead of explicitly requiring each core extension, you can require [typo3/minimal](https://packagist.org/packages/typo3/minimal), which brings the minial required set of stystem extensions.
