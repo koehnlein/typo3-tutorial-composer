@@ -1,5 +1,37 @@
 # Convert your TYPO3 project from non-composer to composer
 
+   * [Convert your TYPO3 project from non-composer to composer](#convert-your-typo3-project-from-non-composer-to-composer)
+      * [Requirements](#requirements)
+         * [TYPO3 version](#typo3-version)
+         * [Composer](#composer)
+         * [Folder structure](#folder-structure)
+         * [Code integrity](#code-integrity)
+   * [Migration steps](#migration-steps)
+      * [Delete files](#delete-files)
+      * [Configure composer](#configure-composer)
+      * [Add all required packages to your project](#add-all-required-packages-to-your-project)
+         * [Install the core](#install-the-core)
+            * [The old way: add everything](#the-old-way-add-everything)
+            * [The new way: add only code, you need](#the-new-way-add-only-code-you-need)
+         * [Install extensions from packagist.org](#install-extensions-from-packagistorg)
+         * [Install extension from TER](#install-extension-from-ter)
+         * [Install extension from version control system (e.g. GitHub, Gitlab, ...)](#install-extension-from-version-control-system-eg-github-gitlab-)
+      * [Include individual extensions like sitepackages](#include-individual-extensions-like-sitepackages)
+   * [Co-working](#co-working)
+      * [Add to version conrol system](#add-to-version-conrol-system)
+      * [Checkout from version control system](#checkout-from-version-control-system)
+   * [Best practices](#best-practices)
+      * [Run composer locally](#run-composer-locally)
+      * [Update packages](#update-packages)
+         * [Update all packages](#update-all-packages)
+      * [Update single packages](#update-single-packages)
+            * [Update TYPO3 core](#update-typo3-core)
+            * [Update extensions like "news"](#update-extensions-like-news)
+         * [Use "dev requirements"](#use-dev-requirements)
+         * [Remove extensions](#remove-extensions)
+         * [Check for available updates](#check-for-available-updates)
+         * [Simplify "subtree split" installations](#simplify-subtree-split-installations)
+
 ## Requirements
 
 ### TYPO3 version
