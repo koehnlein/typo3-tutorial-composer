@@ -255,7 +255,7 @@ To complete our example `composer.json`, this would like this:
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\MySitepackage\\": "web/typo3conf/ext/my_sitepackage/Classes/"
+            "VendorName\\MySitepackage\\": "web/typo3conf/ext/my_sitepackage/Classes/",
             "VendorName\\AnyOtherExtension\\": "web/typo3conf/ext/any_other_extension/Classes/"
         },
         "classmap": [
